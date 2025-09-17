@@ -1,73 +1,67 @@
 # MCP Icon Server
 
-A Model Context Protocol (MCP) server for searching and fetching icons from iconfont.cn.
+一个基于 MCP (Model Context Protocol) 的图标服务器，用于从 iconfont.cn 搜索和获取图标。
 
-## Features
+## 功能特性
 
-- 🔍 **Icon Search**: Search icons from iconfont.cn
-- 📄 **Icon Details**: Get detailed information about icons
-- 🎨 **SVG Content**: Get SVG format content of icons
-- ⚡ **Caching**: Built-in cache for improved performance
-- 📊 **Cache Management**: View and manage cache statistics
-- 🔧 **Zero Dependencies**: Uses only Node.js built-in features
+- 🔍 **图标搜索**: 从 iconfont.cn 搜索图标
+- 📄 **图标详情**: 获取图标的详细信息
+- 🎨 **SVG 获取**: 获取图标的 SVG 格式内容
+- ⚡ **缓存机制**: 内置缓存提高性能
+- 📊 **操作日志**: 记录所有操作日志
+- 🔧 **灵活配置**: 支持自定义尺寸和颜色
 
-## Installation
+## 安装
 
-```bash
-npm install @liangshanli/mcp-server-icon
-```
-
-## Installation
-
-### Global Installation (Recommended)
+### 全局安装（推荐）
 ```bash
 npm install -g @liangshanli/mcp-server-icon
 ```
 
-### Local Installation
+### 本地安装
 ```bash
 npm install @liangshanli/mcp-server-icon
 ```
 
-### From Source
+### 从源码安装
 ```bash
 git clone https://github.com/liliangshan/mcp-server-icon.git
 cd mcp-server-icon
 npm install
 ```
 
-## Usage
+## 使用方法
 
-### 1. Direct Run (Global Installation)
+### 1. 直接运行（全局安装）
 ```bash
 mcp-server-icon
 ```
 
-### 2. Using npx (Recommended)
+### 2. 使用 npx（推荐）
 ```bash
 npx @liangshanli/mcp-server-icon
 ```
 
-### 3. Direct Start (Source Installation)
+### 3. 直接启动（源码安装）
 ```bash
 npm start
 ```
 
-### 4. Development Mode
+### 4. 开发模式（带调试）
 ```bash
 npm run dev
 ```
 
-### 5. Daemon Mode
+### 5. 守护进程模式
 ```bash
 npm run daemon
 ```
 
-## Editor Integration
+## 编辑器集成
 
-### Cursor Editor Configuration
+### Cursor 编辑器配置
 
-1. Create `.cursor/mcp.json` file in your project root:
+1. 在项目根目录创建 `.cursor/mcp.json` 文件：
 
 ```json
 {
@@ -81,10 +75,10 @@ npm run daemon
 }
 ```
 
-### VS Code Configuration
+### VS Code 配置
 
-1. Install the MCP extension for VS Code
-2. Create `.vscode/settings.json` file:
+1. 安装 VS Code 的 MCP 扩展
+2. 创建 `.vscode/settings.json` 文件：
 
 ```json
 {
@@ -98,62 +92,108 @@ npm run daemon
 }
 ```
 
-### As MCP Server
+### 作为 MCP 服务器
 
-The server communicates with MCP clients via stdin/stdout after startup:
+服务器启动后通过 stdin/stdout 与 MCP 客户端通信：
 
 ```json
 {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2024-11-05"}}
 ```
 
-### Environment Variables
+### 环境变量
 
-- `MCP_LOG_DIR`: Log directory (default: `./logs`)
-- `MCP_LOG_FILE`: Log filename (default: `mcp-icon.log`)
+- `MCP_LOG_DIR`: 日志目录（默认: `./logs`）
+- `MCP_LOG_FILE`: 日志文件名（默认: `mcp-icon.log`）
 
-## API Tools
+## API 工具
 
 ### 1. search_icons
 
-Search icons from iconfont.cn
+搜索图标
 
-**Parameters:**
-- `q` (string): Search keyword
-- `sortType` (string): Sort type, default `updated_at`
-- `page` (number): Page number, default 1
-- `pageSize` (number): Items per page, default 100, max 100
-- `sType` (string): Search type filter
-- `fromCollection` (number): Collection filter, default -1 (all)
-- `fills` (string): Fill type filter
+**参数:**
+- `q` (string): 搜索关键词
+- `sortType` (string): 排序类型，默认 `updated_at`
+- `page` (number): 页码，默认 1
+- `pageSize` (number): 每页数量，默认 54，最大 100
+- `sType` (string): 搜索类型过滤
+- `fromCollection` (number): 集合过滤，默认 -1（全部）
+- `fills` (string): 填充类型过滤
 
-**Example:**
+**示例:**
 ```json
 {
   "name": "search_icons",
   "arguments": {
-    "q": "user",
+    "q": "用户",
     "page": 1,
     "pageSize": 20
   }
 }
 ```
 
-### 2. get_cache_stats
+### 2. get_icon_details
 
-Get cache statistics
+获取图标详细信息
 
-**Parameters:** None
+**参数:**
+- `iconId` (number): 图标 ID
 
-### 3. clear_cache
+**示例:**
+```json
+{
+  "name": "get_icon_details",
+  "arguments": {
+    "iconId": 145442
+  }
+}
+```
 
-Clear icon cache
+### 3. get_icon_svg
 
-**Parameters:**
-- `expiredOnly` (boolean): Only clear expired entries, default false
+获取图标的 SVG 内容
 
-## Response Format
+**参数:**
+- `iconId` (number): 图标 ID
+- `width` (number): SVG 宽度，默认 24
+- `height` (number): SVG 高度，默认 24
+- `color` (string): SVG 填充颜色，默认 `currentColor`
 
-### Search Icons Response
+**示例:**
+```json
+{
+  "name": "get_icon_svg",
+  "arguments": {
+    "iconId": 145442,
+    "width": 32,
+    "height": 32,
+    "color": "#FF9000"
+  }
+}
+```
+
+### 4. get_operation_logs
+
+获取操作日志
+
+**参数:**
+- `limit` (number): 限制数量，默认 50
+- `offset` (number): 偏移量，默认 0
+
+### 5. get_cache_stats
+
+获取缓存统计信息
+
+### 6. clear_cache
+
+清除缓存
+
+**参数:**
+- `expiredOnly` (boolean): 仅清除过期条目，默认 false
+
+## 响应格式
+
+### 搜索图标响应
 
 ```json
 {
@@ -189,11 +229,11 @@ Clear icon cache
   },
   "pagination": {
     "page": 1,
-    "pageSize": 100,
+    "pageSize": 54,
     "total": 1
   },
   "searchParams": {
-    "q": "user",
+    "q": "用户",
     "sortType": "updated_at",
     "sType": "",
     "fromCollection": -1,
@@ -202,23 +242,31 @@ Clear icon cache
 }
 ```
 
-## Caching
+## 缓存机制
 
-The server includes built-in caching for improved performance:
+服务器内置了缓存机制来提高性能：
 
-- Cache expiry time: 30 minutes
-- Supports search result caching
-- Provides cache statistics and cleanup functionality
+- 缓存过期时间：30 分钟
+- 支持搜索缓存和图标详情缓存
+- 提供缓存统计和清理功能
 
-## Quick Start
+## 日志记录
 
-### 1. Install Package
+所有操作都会记录到日志文件中：
+
+- 请求和响应记录
+- 错误日志
+- 服务器状态日志
+
+## 快速开始
+
+### 1. 安装包
 ```bash
 npm install -g @liangshanli/mcp-server-icon
 ```
 
-### 2. Configure Cursor Editor
-Create `.cursor/mcp.json` file in your project root:
+### 2. 配置 Cursor 编辑器
+在项目根目录创建 `.cursor/mcp.json` 文件：
 
 ```json
 {
@@ -232,40 +280,40 @@ Create `.cursor/mcp.json` file in your project root:
 }
 ```
 
-### 3. Restart Cursor
-Restart Cursor editor to load the new MCP server configuration.
+### 3. 重启 Cursor
+重启 Cursor 编辑器以加载新的 MCP 服务器配置。
 
-### 4. Start Using
-The icon search tools will be available in Cursor's MCP interface.
+### 4. 开始使用
+图标搜索工具将在 Cursor 的 MCP 界面中可用。
 
-## Requirements
+## 系统要求
 
-- Node.js 18.0.0 or higher
-- No external dependencies (uses built-in fetch)
+- Node.js 18.0.0 或更高版本
+- 无外部依赖（使用 Node.js 内置 fetch）
 
-## Development
+## 开发
 
-### Project Structure
+### 项目结构
 ```
 mcp-server-icon/
 ├── src/
-│   └── server-final.js    # Main server file
+│   └── server-final.js    # 主服务器文件
 ├── bin/
-│   └── cli.js             # CLI entry point
-├── start.js               # Startup script
+│   └── cli.js             # CLI 入口点
+├── start.js               # 启动脚本
 ├── package.json
 └── README.md
 ```
 
-### Testing
+### 测试
 ```bash
 npm test
 ```
 
-## License
+## 许可证
 
 MIT License
 
-## Author
+## 作者
 
 liliangshan

@@ -1,0 +1,51 @@
+{
+  "name": "@liangshanli/mcp-server-icon",
+  "version": "1.0.1",
+  "description": "MCP Icon server for searching and fetching icons from iconfont.cn",
+  "main": "bin/cli.js",
+  "bin": {
+    "mcp-server-icon": "bin/cli.js"
+  },
+  "scripts": {
+    "start": "node bin/cli.js",
+    "dev": "node --inspect bin/cli.js",
+    "start-managed": "node start-server.js",
+    "daemon": "node start-server.js",
+    "server": "node src/server-final.js"
+  },
+  "keywords": [
+    "mcp",
+    "icon",
+    "server",
+    "iconfont",
+    "svg",
+    "model-context-protocol",
+    "cursor",
+    "ai"
+  ],
+  "author": "liliangshan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liliangshan/mcp-server-icon"
+  },
+  "homepage": "https://github.com/liliangshan/mcp-server-icon#readme",
+  "bugs": {
+    "url": "https://github.com/liliangshan/mcp-server-icon/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "start.js",
+    "start-server.js",
+    "README.md",
+    "package.json"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  }
+}
