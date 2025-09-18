@@ -1,0 +1,175 @@
+// 中文语言包
+module.exports = {
+  // 服务器消息
+  server: {
+    starting: '正在启动 MCP 图标服务器...',
+    started: 'MCP 图标服务器启动成功',
+    startupFailed: 'HTTP 服务器启动失败',
+    shutdown: 'MCP 图标服务器停止成功',
+    restart: '正在重启 MCP 图标服务器...',
+    processStarted: 'MCP 图标服务器进程已启动，PID',
+    pressCtrlC: '按 Ctrl+C 优雅关闭服务器',
+    processExited: 'MCP 图标服务器退出，代码',
+    serverRequestedRestart: '服务器请求重启，正在重启...',
+    cliProcessExiting: '服务器关闭后 CLI 进程退出',
+    serverProcessError: '服务器进程错误',
+    receivedSignal: '收到信号，正在关闭服务器...',
+    gracefulShutdown: '服务器关闭超时，强制退出...',
+    failedToKill: '强制终止服务器失败',
+    sentSignal: '已向服务器进程发送信号',
+    noServerToShutdown: '没有服务器进程需要关闭',
+    failedToSendSignal: '向服务器发送信号失败',
+    restarting: '正在重启 MCP 图标服务器...',
+    serverNotResponding: '服务器未响应 SIGTERM，强制终止...',
+    failedToStopForRestart: '重启时停止服务器失败',
+    uncaughtException: 'CLI 中未捕获的异常',
+    unhandledRejection: 'CLI 中未处理的 Promise 拒绝',
+    cliProcessExitingWithCode: 'CLI 进程退出，代码'
+  },
+
+  // 搜索和图标消息
+  search: {
+    foundIcons: '搜索到 {count} 个图标',
+    searchCompleted: '搜索完成！找到 {count} 个图标',
+    searchFailed: '搜索失败',
+    searchResultNotFound: '搜索结果未找到或已过期',
+    searchId: '搜索ID',
+    pleaseSearchAgain: '请重新搜索图标',
+    pleaseWaitForSelection: '请等待用户在网页中选择图标...',
+    webPageUrl: '网页地址',
+    operationSteps: '操作步骤',
+    browseResults: '在浏览器中浏览搜索结果',
+    clickSelectButton: '点击"选择"按钮选择需要的图标',
+    clickSendButton: '点击"发送选中的图标到MCP客户端"按钮',
+    resultsAutoSent: '选择结果将自动发送到 Cursor',
+    pleaseSelectIcons: '请在浏览器中选择需要的图标，选择结果将自动发送到 Cursor。',
+    autoOpenedBrowser: '已自动打开浏览器',
+    pleaseSelectIconsInBrowser: '请在浏览器中选择图标，选择结果将自动发送到MCP客户端',
+    manuallyOpenBrowser: '请手动打开浏览器访问',
+    selectIconsInBrowser: '在浏览器中选择图标，选择结果将自动发送到MCP客户端',
+    webPageAddress: '网页地址',
+    // 新增的文本
+    searchError: '搜索错误：',
+    searchErrorWithMessage: '搜索错误：{message}',
+    searchIdZero: 'search_0',
+    webUrlZero: 'http://localhost:3000?searchId=search_0',
+    countZero: 0,
+    pleaseExecuteCheckSelection: '我会再执行mcp tool工具check_selection_status查询你选择的图标',
+    messageSearchCompleted: '搜索完成，找到 {count} 个图标',
+    pleaseCheckSelectedIcons: '请查看下 {searchId} 选择的图标'
+  },
+
+  // 选择和等待消息
+  selection: {
+    waitingForSelection: '等待用户选择...',
+    userSelectedIcons: '用户已选择 {count} 个图标！',
+    selectedIcons: '选中的图标',
+    savingSvgFiles: '正在保存SVG文件...',
+    waitTimeout: '等待用户选择超时',
+    waitTime: '等待时间',
+    pleaseRefreshPage: '请刷新页面重新选择图标',
+    detectedUserSelection: '检测到用户已选择图标！',
+    sendingIcons: '发送 {count} 个选中的图标到MCP客户端...',
+    selectedIconsList: '选中的图标',
+    failedToSend: '发送到MCP客户端失败',
+    sendingSuccess: '成功发送 {count} 个图标到MCP客户端'
+  },
+
+  // 下载和保存消息
+  download: {
+    savePath: '保存路径',
+    downloading: '正在下载 {current}/{total}: {name}...',
+    saved: '已保存: {name}',
+    downloadFailed: '下载失败: {name}',
+    downloadCompleted: '下载完成！',
+    successfullyDownloaded: '成功下载: {saved}/{total} 个图标',
+    saveLocation: '保存位置',
+    errorDuringDownload: '下载过程中出现错误',
+    saving: '正在保存 {current}/{total}: {name}...',
+    saveFailed: '保存失败: {name} - {error}',
+    saveCompleted: '保存完成！',
+    successfullySaved: '成功保存: {saved}/{total} 个图标',
+    errorDuringSave: '保存过程中出现错误',
+    noSvgData: '图标 {name} 没有可用的SVG数据',
+    iconSaved: '成功保存 {saved}/{total} 个图标到 {path}'
+  },
+
+  // 浏览器和窗口消息
+  browser: {
+    pleaseManuallyOpen: '请手动打开',
+    detectedBrowserProcess: '检测到{browser}进程ID: {pid}',
+    detectedBrowserProcessId: '检测到浏览器进程ID: {pid}',
+    unableToMinimize: '无法最小化浏览器窗口',
+    checkIfWindows: '判断是不是win系统',
+    ifHwndZero: '如果hwnd为0，则返回',
+    getTitle: '获取标题',
+    ifTitleEmpty: '如果标题为空，则返回',
+    ifTitleBrowser: '如果标题为浏览器，则最小化'
+  },
+
+  // 缓存消息
+  cache: {
+    expiredEntriesCleared: '已清理过期缓存条目',
+    allEntriesCleared: '已清理所有缓存条目',
+    remainingEntries: '剩余条目'
+  },
+
+  // 错误消息
+  error: {
+    serverNotInitialized: '服务器未初始化',
+    unknownMethod: '未知方法',
+    unsupportedJsonRpc: '不支持的 JSON-RPC 版本',
+    internalError: '内部错误',
+    methodNotFound: '方法未找到',
+    invalidRequest: '无效请求',
+    missingSearchId: '缺少 searchId 参数',
+    invalidIconsData: '无效的图标数据',
+    requestTimeout: '请求超时：无法连接到 iconfont API',
+    networkError: '网络错误：无法连接到 iconfont API',
+    requestError: '请求错误'
+  },
+
+  // Web界面消息
+  web: {
+    title: '图标搜索工具',
+    subtitle: '搜索、预览和下载你需要的图标',
+    searchPlaceholder: '输入关键词搜索图标...',
+    searchButton: '搜索图标',
+    sortBy: '排序方式',
+    updatedAt: '更新时间',
+    createdAt: '创建时间',
+    name: '名称',
+    pageSize: '每页数量',
+    type: '类型',
+    all: '全部',
+    outline: '线框',
+    filled: '填充',
+    searching: '正在搜索图标...',
+    searchResults: '搜索结果',
+    foundIcons: '找到 {count} 个图标',
+    selectedIcons: '已选择的图标',
+    autoSendNotice: '💡 选择图标后将自动发送到MCP客户端',
+    loadingCachedResults: '从缓存加载搜索结果:',
+    cacheApiResponse: '缓存API响应:',
+    loadedCachedResults: '已加载缓存的搜索结果，共 {count} 个图标',
+    failedToLoadCache: '加载缓存结果失败',
+    clearSearchBox: '清空搜索框，不执行搜索',
+    noCacheId: '没有缓存ID，清空搜索框，不执行搜索',
+    selectedCount: '已选择 {count} 个图标并发送到MCP客户端',
+    browserWillMinimize: '浏览器窗口将自动最小化，页面将在2秒后关闭...',
+    sendFailed: '发送失败',
+    operationSteps: '操作步骤',
+    browseInBrowser: '在浏览器中浏览搜索结果',
+    clickSelect: '点击"选择"按钮选择需要的图标',
+    clickSend: '点击"发送选中的图标到MCP客户端"按钮',
+    resultsSent: '选择结果将自动发送到 Cursor',
+    unnamed: '未命名',
+    selected: '已选择',
+    select: '选择',
+    preview: '预览',
+    fontClass: '字体类名',
+    none: '无',
+    size: '尺寸',
+    close: '关闭'
+  }
+};

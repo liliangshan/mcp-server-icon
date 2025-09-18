@@ -1,0 +1,175 @@
+// English language pack
+module.exports = {
+  // Server messages
+  server: {
+    starting: 'Starting MCP Icon server...',
+    started: 'MCP Icon server started successfully',
+    startupFailed: 'HTTP server startup failed',
+    shutdown: 'MCP Icon server stopped successfully',
+    restart: 'Restarting MCP Icon server...',
+    processStarted: 'MCP Icon server process started with PID',
+    pressCtrlC: 'Press Ctrl+C to gracefully shutdown the server',
+    processExited: 'MCP Icon server exited with code',
+    serverRequestedRestart: 'Server requested restart, restarting...',
+    cliProcessExiting: 'CLI process exiting after server shutdown',
+    serverProcessError: 'Server process error',
+    receivedSignal: 'Received signal, shutting down server...',
+    gracefulShutdown: 'Server shutdown timeout, forcing exit...',
+    failedToKill: 'Failed to force kill server',
+    sentSignal: 'Sent signal to server process',
+    noServerToShutdown: 'No server process to shutdown',
+    failedToSendSignal: 'Failed to send signal to server',
+    restarting: 'Restarting MCP Icon server...',
+    serverNotResponding: 'Server not responding to SIGTERM, forcing kill...',
+    failedToStopForRestart: 'Failed to stop server for restart',
+    uncaughtException: 'Uncaught exception in CLI',
+    unhandledRejection: 'Unhandled Promise rejection in CLI',
+    cliProcessExitingWithCode: 'CLI process exiting with code'
+  },
+
+  // Search and icon messages
+  search: {
+    foundIcons: 'Found {count} icons',
+    searchCompleted: 'Search completed! Found {count} icons',
+    searchFailed: 'Search failed',
+    searchResultNotFound: 'Search result not found or expired',
+    searchId: 'Search ID',
+    pleaseSearchAgain: 'Please search for icons again',
+    pleaseWaitForSelection: 'Please wait for user to select icons on the webpage...',
+    webPageUrl: 'Web page URL',
+    operationSteps: 'Operation steps',
+    browseResults: 'Browse search results in the browser',
+    clickSelectButton: 'Click "Select" button to choose needed icons',
+    clickSendButton: 'Click "Send selected icons to MCP client" button',
+    resultsAutoSent: 'Selection results will be automatically sent to Cursor',
+    pleaseSelectIcons: 'Please select needed icons in the browser, selection results will be automatically sent to Cursor.',
+    autoOpenedBrowser: 'Auto-opened browser',
+    pleaseSelectIconsInBrowser: 'Please select icons in the browser, selection results will be automatically sent to MCP client',
+    manuallyOpenBrowser: 'Please manually open browser to visit',
+    selectIconsInBrowser: 'Select icons in the browser, selection results will be automatically sent to MCP client',
+    webPageAddress: 'Web page address',
+    // New text keys
+    searchError: 'Search error: ',
+    searchErrorWithMessage: 'Search error: {message}',
+    searchIdZero: 'search_0',
+    webUrlZero: 'http://localhost:3000?searchId=search_0',
+    countZero: 0,
+    pleaseExecuteCheckSelection: 'I will execute mcp tool tool check_selection_status again to query you selected icons',
+    messageSearchCompleted: 'Search completed, found {count} icons',
+    pleaseCheckSelectedIcons: 'Please check the selected icons for {searchId}'
+  },
+
+  // Selection and waiting messages
+  selection: {
+    waitingForSelection: 'Waiting for user selection...',
+    userSelectedIcons: 'User has selected {count} icons!',
+    selectedIcons: 'Selected icons',
+    savingSvgFiles: 'Saving SVG files...',
+    waitTimeout: 'User selection wait timeout',
+    waitTime: 'Wait time',
+    pleaseRefreshPage: 'Please refresh the page to select icons again',
+    detectedUserSelection: 'Detected user has selected icons!',
+    sendingIcons: 'Sending {count} selected icons to MCP client...',
+    selectedIconsList: 'Selected icons',
+    failedToSend: 'Failed to send to MCP client',
+    sendingSuccess: 'Successfully sent {count} icons to MCP client'
+  },
+
+  // Download and save messages
+  download: {
+    savePath: 'Save path',
+    downloading: 'Downloading {current}/{total}: {name}...',
+    saved: 'Saved: {name}',
+    downloadFailed: 'Download failed: {name}',
+    downloadCompleted: 'Download completed!',
+    successfullyDownloaded: 'Successfully downloaded: {saved}/{total} icons',
+    saveLocation: 'Save location',
+    errorDuringDownload: 'Error occurred during download',
+    saving: 'Saving {current}/{total}: {name}...',
+    saveFailed: 'Save failed: {name} - {error}',
+    saveCompleted: 'Save completed!',
+    successfullySaved: 'Successfully saved: {saved}/{total} icons',
+    errorDuringSave: 'Error occurred during save',
+    noSvgData: 'Icon {name} has no available SVG data',
+    iconSaved: 'Successfully saved {saved}/{total} icons to {path}'
+  },
+
+  // Browser and window messages
+  browser: {
+    pleaseManuallyOpen: 'Please manually open',
+    detectedBrowserProcess: 'Detected {browser} process ID: {pid}',
+    detectedBrowserProcessId: 'Detected browser process ID: {pid}',
+    unableToMinimize: 'Unable to minimize browser window',
+    checkIfWindows: 'Check if it\'s Windows system',
+    ifHwndZero: 'If hwnd is 0, return',
+    getTitle: 'Get title',
+    ifTitleEmpty: 'If title is empty, return',
+    ifTitleBrowser: 'If title is browser, minimize'
+  },
+
+  // Cache messages
+  cache: {
+    expiredEntriesCleared: 'Expired cache entries cleared',
+    allEntriesCleared: 'All cache entries cleared',
+    remainingEntries: 'Remaining entries'
+  },
+
+  // Error messages
+  error: {
+    serverNotInitialized: 'Server not initialized',
+    unknownMethod: 'Unknown method',
+    unsupportedJsonRpc: 'Unsupported JSON-RPC version',
+    internalError: 'Internal error',
+    methodNotFound: 'Method not found',
+    invalidRequest: 'Invalid Request',
+    missingSearchId: 'Missing searchId parameter',
+    invalidIconsData: 'Invalid icons data',
+    requestTimeout: 'Request timeout: Unable to reach iconfont API',
+    networkError: 'Network error: Unable to reach iconfont API',
+    requestError: 'Request error'
+  },
+
+  // Web interface messages
+  web: {
+    title: 'Icon Search Tool',
+    subtitle: 'Search, preview and download the icons you need',
+    searchPlaceholder: 'Enter keywords to search for icons...',
+    searchButton: 'Search Icons',
+    sortBy: 'Sort by',
+    updatedAt: 'Updated time',
+    createdAt: 'Created time',
+    name: 'Name',
+    pageSize: 'Items per page',
+    type: 'Type',
+    all: 'All',
+    outline: 'Outline',
+    filled: 'Filled',
+    searching: 'Searching for icons...',
+    searchResults: 'Search Results',
+    foundIcons: 'Found {count} icons',
+    selectedIcons: 'Selected Icons',
+    autoSendNotice: '💡 Selected icons will be automatically sent to MCP client',
+    loadingCachedResults: 'Loading cached search results:',
+    cacheApiResponse: 'Cache API response:',
+    loadedCachedResults: 'Loaded cached search results, total {count} icons',
+    failedToLoadCache: 'Failed to load cached results',
+    clearSearchBox: 'Clear search box, do not execute search',
+    noCacheId: 'No cache ID, clear search box, do not execute search',
+    selectedCount: 'Selected {count} icons and sent to MCP client',
+    browserWillMinimize: 'Browser window will automatically minimize, page will close in 2 seconds...',
+    sendFailed: 'Send failed',
+    operationSteps: 'Operation steps',
+    browseInBrowser: 'Browse search results in the browser',
+    clickSelect: 'Click "Select" button to choose needed icons',
+    clickSend: 'Click "Send selected icons to MCP client" button',
+    resultsSent: 'Selection results will be automatically sent to Cursor',
+    unnamed: 'Unnamed',
+    selected: 'Selected',
+    select: 'Select',
+    preview: 'Preview',
+    fontClass: 'Font Class',
+    none: 'None',
+    size: 'Size',
+    close: 'Close'
+  }
+};

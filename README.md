@@ -75,7 +75,10 @@ npm run daemon
     "icon": {
       "command": "npx",
       "args": ["@liangshanli/mcp-server-icon"],
-      "env": {}
+      "env": {
+        "LANGUAGE": "en",
+        "WEB_SERVER_AUTO_OPEN": "true"
+      }
     }
   }
 }
@@ -92,7 +95,10 @@ npm run daemon
     "icon": {
       "command": "npx",
       "args": ["@liangshanli/mcp-server-icon"],
-      "env": {}
+      "env": {
+        "LANGUAGE": "en",
+        "WEB_SERVER_AUTO_OPEN": "true"
+      }
     }
   }
 }
@@ -108,6 +114,8 @@ The server communicates with MCP clients via stdin/stdout after startup:
 
 ### Environment Variables
 
+- `LANGUAGE`: Interface language setting (`en` or `zh-CN`, default: `en`)
+- `WEB_SERVER_AUTO_OPEN`: Whether to auto-open browser (`true` or `false`, default: `true`)
 - `MCP_LOG_DIR`: Log directory (default: `./logs`)
 - `MCP_LOG_FILE`: Log filename (default: `mcp-icon.log`)
 
@@ -226,7 +234,10 @@ Create `.cursor/mcp.json` file in your project root:
     "icon": {
       "command": "npx",
       "args": ["@liangshanli/mcp-server-icon"],
-      "env": {}
+      "env": {
+        "LANGUAGE": "en",
+        "WEB_SERVER_AUTO_OPEN": "true"
+      }
     }
   }
 }
@@ -249,12 +260,52 @@ The icon search tools will be available in Cursor's MCP interface.
 ```
 mcp-server-icon/
 ├── src/
-│   └── server-final.js    # Main server file
+│   ├── server-final.js        # Main server file
+│   ├── server-final-http.js   # HTTP server file
+│   ├── utils/                 # Utility classes directory
+│   │   ├── http-server.js     # HTTP server utility class
+│   │   ├── web-interface.js   # Web interface handler
+│   │   ├── window-utils.js    # Window utility class
+│   │   ├── search-icons.js    # Icon search utility
+│   │   ├── cache-manager.js   # Cache management utility
+│   │   ├── web-server-manager.js # Web server management utility
+│   │   ├── icon-saver.js      # Icon saving utility
+│   │   └── selection-checker.js # Selection status checker utility
+│   └── lang/                  # Multi-language support
+│       ├── index.js
+│       ├── en.js
+│       └── zh-CN.js
 ├── bin/
 │   └── cli.js             # CLI entry point
 ├── start.js               # Startup script
+├── start-server.js        # Server startup script
 ├── package.json
 └── README.md
+```
+
+### Development Environment Setup
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/liliangshan/mcp-server-icon.git
+cd mcp-server-icon
+npm install
+```
+
+2. **Set up environment variables**
+```bash
+# Language settings
+export LANGUAGE=en
+export WEB_SERVER_AUTO_OPEN=true
+
+# Logging settings
+export MCP_LOG_DIR=./logs
+export MCP_LOG_FILE=mcp-icon.log
+```
+
+3. **Run in development mode**
+```bash
+npm run dev
 ```
 
 ### Testing
