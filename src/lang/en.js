@@ -56,7 +56,10 @@ module.exports = {
     countZero: 0,
     pleaseExecuteCheckSelection: 'I will execute mcp tool tool check_selection_status again to query you selected icons',
     messageSearchCompleted: 'Search completed, found {count} icons',
-    pleaseCheckSelectedIcons: 'Please check the selected icons for {searchId}'
+    pleaseCheckSelectedIcons: 'Please use mcp tool tool check_selection_status to check the selected icons for {searchId}',
+    // Search descriptions
+    searchDescription: 'Search icons from iconfont.cn (single keyword search only)',
+    searchKeywordDescription: 'Search query keyword (single word only, use the most relevant keyword)'
   },
 
   // Selection and waiting messages
@@ -72,7 +75,9 @@ module.exports = {
     sendingIcons: 'Sending {count} selected icons to MCP client...',
     selectedIconsList: 'Selected icons',
     failedToSend: 'Failed to send to MCP client',
-    sendingSuccess: 'Successfully sent {count} icons to MCP client'
+    sendingSuccess: 'Successfully sent {count} icons to MCP client',
+    selectionFailed: 'Selection failed',
+    pleaseTryAgain: 'Please try again'
   },
 
   // Download and save messages

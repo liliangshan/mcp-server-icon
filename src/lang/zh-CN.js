@@ -56,7 +56,10 @@ module.exports = {
     countZero: 0,
     pleaseExecuteCheckSelection: '我会再执行mcp tool工具check_selection_status查询你选择的图标',
     messageSearchCompleted: '搜索完成，找到 {count} 个图标',
-    pleaseCheckSelectedIcons: '请查看下 {searchId} 选择的图标'
+    pleaseCheckSelectedIcons: '使用mcp tool工具check_selection_status请查看下 {searchId} 选择的图标',
+    // 搜索提示
+    searchDescription: '从 iconfont.cn 搜索图标（仅支持单个关键词搜索）',
+    searchKeywordDescription: '搜索关键词（仅支持单个词，请使用最相关的关键词）'
   },
 
   // 选择和等待消息
@@ -72,7 +75,9 @@ module.exports = {
     sendingIcons: '发送 {count} 个选中的图标到MCP客户端...',
     selectedIconsList: '选中的图标',
     failedToSend: '发送到MCP客户端失败',
-    sendingSuccess: '成功发送 {count} 个图标到MCP客户端'
+    sendingSuccess: '成功发送 {count} 个图标到MCP客户端',
+    selectionFailed: '选择失败',
+    pleaseTryAgain: '请重试'
   },
 
   // 下载和保存消息

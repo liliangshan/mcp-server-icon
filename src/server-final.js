@@ -226,13 +226,13 @@ class FinalMCPServer {
             tools: [
               {
                 name: 'search_icons',
-                description: 'Search icons from iconfont.cn',
+                description: 'Search icons from iconfont.cn (single keyword search only)',
                 inputSchema: {
                   type: 'object',
                   properties: {
                     q: {
                       type: 'string',
-                      description: 'Search query keyword'
+                      description: 'Search query keyword (single word only, use the most relevant keyword)'
                     },
                     sortType: {
                       type: 'string',

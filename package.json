@@ -1,6 +1,6 @@
 {
   "name": "@liangshanli/mcp-server-icon",
-  "version": "1.3.2",
+  "version": "1.3.4",
   "description": "MCP Icon server for searching and fetching icons from iconfont.cn",
   "main": "bin/cli.js",
   "bin": {

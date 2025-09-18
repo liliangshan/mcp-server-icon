@@ -140,7 +140,7 @@ class FinalMCPServer {
   async search_icons(params) {
     return await this.searchIconsTool.search_icons({
       ...params,
-      pageSize: 100
+      pageSize: 15
     });
   }
 
@@ -293,13 +293,13 @@ class FinalMCPServer {
             tools: [
               {
                 name: 'search_icons',
-                description: 'Search icons from iconfont.cn',
+                description: t('search.searchDescription'),
                 inputSchema: {
                   type: 'object',
                   properties: {
                     q: {
                       type: 'string',
-                      description: 'Search query keyword'
+                      description: t('search.searchKeywordDescription')
                     },
                     sortType: {
                       type: 'string',

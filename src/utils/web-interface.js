@@ -7,8 +7,10 @@ class WebInterface {
     constructor(options = {}) {
         this.searchCache = options.searchCache || new Map();
         this.selectionCache = options.selectionCache || new Map();
+        this.iconCache = options.iconCache || new Map();
         this.onSaveIcons = options.onSaveIcons || null;
         this.searchIconsTool = options.searchIconsTool || null;
+        this.cacheExpiry = options.cacheExpiry || 30 * 60 * 1000; // 30 minutes
    
         this.language = options.language || 'en';
     }
@@ -80,6 +82,8 @@ class WebInterface {
      */
     handleCacheAPI(req, res, searchParams) {
         const searchId = searchParams.get('searchId');
+        const page = searchParams.get('page');
+        const requestKeyword = searchParams.get('q');
 
         if (!searchId) {
             res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -87,19 +91,63 @@ class WebInterface {
             return;
         }
 
-        const cachedResult = this.searchCache.get(searchId);
-        if (!cachedResult) {
+        // 首先从searchCache获取原始搜索参数
+        const searchResult = this.searchCache.get(searchId);
+        if (!searchResult) {
             res.writeHead(404, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Search result not found or expired' }));
             return;
         }
 
-        // Ensure correct data structure is returned
+        // 从searchParams中提取参数，如果有requestKeyword则替换q
+        const { q, sortType, pageSize, sType, fromCollection, fills } = searchResult.searchParams;
+        const searchQuery = requestKeyword || q;
+        
+        // 构建cacheKey，使用请求的page参数或默认的page
+        const requestPage = page ? parseInt(page) : searchResult.searchParams.page;
+        const cacheKey = `search_${searchQuery}_${sortType}_${requestPage}_${pageSize}_${sType}_${fromCollection}_${fills}`;
+
+        // 从iconCache中获取数据
+        let cachedResult = this.iconCache.get(cacheKey);
+        
+        if (!cachedResult || Date.now() - cachedResult.timestamp > this.cacheExpiry) {
+            // 如果缓存不存在或已过期，从服务器获取
+            if (this.searchIconsTool) {
+                this.searchIconsTool.fetchIconData({
+                    q: searchQuery, sortType, page: requestPage, pageSize, sType, fromCollection, fills
+                }).then(result => {
+                    // 更新searchCache
+                    this.searchCache.set(searchId, {
+                        data: result,
+                        timestamp: Date.now(),
+                        searchParams: { q: searchQuery, sortType, page: requestPage, pageSize, sType, fromCollection, fills }
+                    });
+
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({
+                        success: true,
+                        data: result.data,
+                        searchParams: { q: searchQuery, sortType, page: requestPage, pageSize, sType, fromCollection, fills },
+                        timestamp: Date.now()
+                    }));
+                }).catch(error => {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Failed to fetch data from server: ' + error.message }));
+                });
+                return;
+            } else {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Search tool not configured' }));
+                return;
+            }
+        }
+
+        // 使用缓存的数据
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
             success: true,
-            data: cachedResult.data, // Directly return complete data structure
-            searchParams: cachedResult.searchParams,
+            data: cachedResult.data,
+            searchParams: { q: searchQuery, sortType, page: requestPage, pageSize, sType, fromCollection, fills },
             timestamp: cachedResult.timestamp
         }));
     }
@@ -153,18 +201,90 @@ class WebInterface {
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px;
-            text-align: center;
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
         .header h1 {
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            margin: 0;
         }
         
         .header p {
             opacity: 0.9;
             font-size: 1.1rem;
+            margin: 0;
+        }
+        
+        .header-search {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            max-width: 400px;
+        }
+        
+        .header-search form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .header-search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .header-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .header-search-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-search-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .header-search-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            fill: white;
         }
         
         .search-section {
@@ -251,9 +371,16 @@ class WebInterface {
         }
         
         .loading {
-            text-align: center;
-            padding: 40px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             color: #666;
+            z-index: 10;
         }
         
         .loading::after {
@@ -275,6 +402,7 @@ class WebInterface {
         
         .results-section {
             padding: 30px;
+            position: relative;
         }
         
         .results-header {
@@ -417,6 +545,84 @@ class WebInterface {
             color: #333;
         }
         
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+            padding: 20px;
+        }
+        
+        .page-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .page-btn:hover:not(:disabled) {
+            background: #0056b3;
+        }
+        
+        .page-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .page-info {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .page-numbers {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .page-number {
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #dee2e6;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            min-width: 40px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .page-number:hover:not(.active):not(:disabled) {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        
+        .page-number.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .page-number:disabled {
+            background: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .page-ellipsis {
+            color: #6c757d;
+            padding: 8px 4px;
+            font-size: 14px;
+        }
+        
         .selected-list {
             display: flex;
             flex-wrap: wrap;
@@ -531,11 +737,18 @@ class WebInterface {
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎨 ${t('web.title')}</h1>
-            <p>${t('web.subtitle')}</p>
+            <div class="header-left">
+                <h1>🎨 ${t('web.title')}</h1>
+            </div>
+            <form id="headerSearchForm" class="header-search">
+                <input type="text" id="headerSearchInput" class="header-search-input" placeholder="${t('web.searchPlaceholder')}" />
+                <button type="submit" id="headerSearchBtn" class="header-search-btn">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+            </form>
         </div>
-        
-       
         
         <div class="results-section">
             <div id="loading" class="loading" style="display: none;">${t('web.searching')}</div>
@@ -548,6 +761,12 @@ class WebInterface {
             </div>
             
             <div id="iconsGrid" class="icons-grid"></div>
+            
+            <div id="pagination" class="pagination" style="display: none;">
+                <button id="prevPage" class="page-btn" disabled>${this.language === 'zh-cn' ? '上一页' : 'Previous'}</button>
+                <div id="pageNumbers" class="page-numbers"></div>
+                <button id="nextPage" class="page-btn" disabled>${this.language === 'zh-cn' ? '下一页' : 'Next'}</button>
+            </div>
             
             <div id="selectedIcons" class="selected-icons" style="display: none;">
                 <h3>${t('web.selectedIcons')}</h3>
@@ -696,6 +915,14 @@ class WebInterface {
      */
     setCacheManagerTool(tool) {
         this.cacheManagerTool = tool;
+    }
+
+    /**
+     * Set icon cache
+     * @param {Map} cache - Icon cache Map
+     */
+    setIconCache(cache) {
+        this.iconCache = cache;
     }
 }
 

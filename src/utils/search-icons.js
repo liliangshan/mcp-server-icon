@@ -14,7 +14,71 @@ class SearchIconsTool {
     this.webServerAutoOpen = options.webServerAutoOpen || false;
   }
 
+  async fetchIconData(params) {
+    const {
+      q = '',
+      sortType = 'updated_at',
+      page = 1,
+      pageSize = 100,
+      sType = '',
+      fromCollection = -1,
+      fills = ''
+    } = params;
 
+    return new Promise(async(resolve, reject) => {
+      const cacheKey = `search_${q}_${sortType}_${page}_${pageSize}_${sType}_${fromCollection}_${fills}`;
+      if (this.iconCache.has(cacheKey)) {
+        const cached = this.iconCache.get(cacheKey);
+        if (Date.now() - cached.timestamp < this.cacheExpiry) {
+          resolve(cached.data);
+          return;
+        }
+      }
+
+      const requestParams = new URLSearchParams({
+        q: q,
+        sortType,
+        page,
+        pageSize,
+        sType,
+        fromCollection,
+        fills,
+        t: Date.now(),
+        ctoken: 'null'
+      });
+
+      const response = await fetch(ICONFONT_API_BASE, {
+        method: 'POST',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+          'Accept': 'application/json, text/plain, */*',
+          'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: requestParams.toString(),
+        signal: AbortSignal.timeout(parseInt(process.env.ICON_SEARCH_TIMEOUT) || 30000) // 30 second timeout
+      });
+
+      if (!response.ok) {
+        reject(new Error(`HTTP error! status: ${response.status}`));
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data.code !== 200) {
+        reject(new Error(`API returned error: ${data.message || 'Unknown error'}`));
+        return;
+      }
+
+      this.iconCache.set(cacheKey, {
+        data: data,
+        timestamp: Date.now()
+      });
+
+      resolve(data);
+    });
+  }
   /**
    * Search icons from iconfont.cn
    * @param {Object} params - Search parameters
@@ -109,42 +173,10 @@ class SearchIconsTool {
     }
 
     try {
-      // Prepare request parameters
-      const requestParams = new URLSearchParams({
-        q: q,
-        sortType,
-        page,
-        pageSize,
-        sType,
-        fromCollection,
-        fills,
-        t: Date.now(),
-        ctoken: 'null'
-      });
-
       // Make API request using built-in fetch
-      const response = await fetch(ICONFONT_API_BASE, {
-        method: 'POST',
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-          'Accept': 'application/json, text/plain, */*',
-          'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        },
-        body: requestParams.toString(),
-        signal: AbortSignal.timeout(parseInt(process.env.ICON_SEARCH_TIMEOUT) || 30000) // 30 second timeout
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = await this.fetchIconData({ q, sortType, page, pageSize, sType, fromCollection, fills });
 
       let result = null;
-      if (data.code !== 200) {
-        throw new Error(`API returned error: ${data.message || 'Unknown error'}`);
-      }
 
       const searchId = `search_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       result = {

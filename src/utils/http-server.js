@@ -205,6 +205,7 @@ class HttpServer {
    * @param {string} searchId - Search ID
    */
   markSelectionFailed(searchId) {
+    
     setTimeout(()=>{
       if (this.selectionCache.has(searchId)) {
         const selection = this.selectionCache.get(searchId);

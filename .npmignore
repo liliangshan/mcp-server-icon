@@ -1,0 +1,50 @@
+# Development files
+test-*.js
+*.test.js
+*.spec.js
+
+# Documentation
+*.md
+!README.md
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Temporary files
+tmp/
+temp/
+
+# Build artifacts
+dist/
+build/
+
+# Coverage
+coverage/
+
+# Node modules are included in this package
+
+# Git
+.git/
+.gitignore
+
+# Other
+*.tgz
+*.tar.gz
