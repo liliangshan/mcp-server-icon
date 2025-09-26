@@ -309,11 +309,27 @@ class SearchIconsTool {
         timestamp: Date.now(),
         connected: true
       });
-      result.contentType = "application/vnd.x-mcp-embedded-prompt";
+      // 使用符合 MCP 官方规范的格式，优化 AI 自动执行
       result.content = [
         {
           type: "text",
           text: t('search.pleaseCheckSelectedIcons', { searchId: searchId })
+        },
+        {
+          type: "text",
+          text: `\n\n🔍 ${t('search.searchCompletedWithCount', { count: result.count })}\n\n📋 ${t('search.operationSteps')}：\n1. ${t('search.step1')}\n2. ${t('search.step2')}\n\n🌐 ${t('search.webAddress')}：${result.webUrl}\n🆔 ${t('search.searchIdLabel')}：${searchId}\n\n⏳ ${t('search.waitingForUserSelection')}`
+        },
+        {
+          type: "text",
+          text: `\n\n---\n\n🔧 ${t('search.toolCallInstruction')}：\n\n${t('search.immediateExecution')}\n${t('search.parameters')}：{"searchId": "${searchId}"}\n\n${t('search.requiredNextStep')}`
+        },
+        {
+          type: "text",
+          text: `\n\n---\n\n⚠️ ${t('search.importantNotice')}\n\n${t('search.toolName')}：mcp_icon_check_selection_status\n${t('search.parameters')}：searchId = "${searchId}"\n\n${t('search.doNotWaitForUser')}`
+        },
+        {
+          type: "text",
+          text: `\n\n---\n\n🎯 ${t('search.executionCommand')}：\n\n${t('search.callTool')}\n${t('search.args', { searchId: searchId })}\n\n${t('search.executeImmediately')}`
         }
       ];
       return result;

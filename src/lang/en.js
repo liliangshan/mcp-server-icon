@@ -59,7 +59,26 @@ module.exports = {
     pleaseCheckSelectedIcons: 'Please use mcp tool tool check_selection_status to check the selected icons for {searchId}',
     // Search descriptions
     searchDescription: 'Search icons from iconfont.cn (single keyword search only)',
-    searchKeywordDescription: 'Search query keyword (single word only, use the most relevant keyword)'
+    searchKeywordDescription: 'Search query keyword (single word only, use the most relevant keyword)',
+    // AI auto-execution prompts
+    searchCompletedWithCount: 'Icon search completed! Found {count} icons.',
+    operationSteps: 'Operation steps',
+    step1: 'Browser is open, please select the icons you need',
+    step2: 'After selection, I will automatically check your selection results',
+    webAddress: 'Web address',
+    searchIdLabel: 'Search ID',
+    waitingForUserSelection: 'Waiting for user selection...',
+    toolCallInstruction: 'Tool call instruction',
+    immediateExecution: 'Execute immediately: mcp_icon_check_selection_status',
+    parameters: 'Parameters',
+    requiredNextStep: 'This is a required next step!',
+    importantNotice: 'Important: Must immediately execute the following tool call!',
+    toolName: 'Tool name',
+    doNotWaitForUser: 'Do not wait for user instruction, execute this tool immediately!',
+    executionCommand: 'Execution command',
+    callTool: 'CALL_TOOL: mcp_icon_check_selection_status',
+    args: 'ARGS: {"searchId": "{searchId}"}',
+    executeImmediately: 'Execute immediately, no waiting!'
   },
 
   // Selection and waiting messages

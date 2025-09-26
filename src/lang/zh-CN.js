@@ -59,7 +59,26 @@ module.exports = {
     pleaseCheckSelectedIcons: '使用mcp tool工具check_selection_status请查看下 {searchId} 选择的图标',
     // 搜索提示
     searchDescription: '从 iconfont.cn 搜索图标（仅支持单个关键词搜索）',
-    searchKeywordDescription: '搜索关键词（仅支持单个词，请使用最相关的关键词）'
+    searchKeywordDescription: '搜索关键词（仅支持单个词，请使用最相关的关键词）',
+    // AI 自动执行提示
+    searchCompletedWithCount: '图标搜索完成！找到 {count} 个图标。',
+    operationSteps: '操作步骤',
+    step1: '浏览器已打开，请选择您需要的图标',
+    step2: '选择完成后，我将自动检查您的选择结果',
+    webAddress: '网页地址',
+    searchIdLabel: '搜索ID',
+    waitingForUserSelection: '等待用户选择中...',
+    toolCallInstruction: '工具调用指令',
+    immediateExecution: '立即执行：mcp_icon_check_selection_status',
+    parameters: '参数',
+    requiredNextStep: '这是必需的下一步操作！',
+    importantNotice: '重要：必须立即执行以下工具调用！',
+    toolName: '工具名称',
+    doNotWaitForUser: '不要等待用户指示，立即执行此工具！',
+    executionCommand: '执行命令',
+    callTool: 'CALL_TOOL: mcp_icon_check_selection_status',
+    args: 'ARGS: {"searchId": "{searchId}"}',
+    executeImmediately: '立即执行，无需等待！'
   },
 
   // 选择和等待消息
